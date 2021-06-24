@@ -32,3 +32,8 @@ Software architecture description
 IDE running
 /
 https://gitee.com/fonrye/spring-boot-leave
+![image](https://user-images.githubusercontent.com/57905473/123210190-3b7ba600-d4f4-11eb-8f52-8a1bff70f7a9.png)
+![image](https://user-images.githubusercontent.com/57905473/123210205-446c7780-d4f4-11eb-8713-bbb5e2a61054.png)
+
+
+
