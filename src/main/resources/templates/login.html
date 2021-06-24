@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html lang="zxx">
+
+<head>
+    <title>主页</title>
+    <!-- Meta tag Keywords -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <meta name="keywords" content=""
+    />
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <!-- Meta tag Keywords -->
+    <!-- css files -->
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+    <!-- Style-CSS -->
+    <link rel="stylesheet" href="css/fontawesome-all.css">
+    <!-- Font-Awesome-Icons-CSS -->
+    <!-- //css files -->
+    <!-- web-fonts -->
+    <link href="http://maxcdn.bootstrapcdn.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+    <link href="http://maxcdn.bootstrapcdn.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+    <!-- //web-fonts -->
+</head>
+
+<body>
+<!-- bg effect -->
+<div id="bg">
+    <canvas></canvas>
+    <canvas></canvas>
+    <canvas></canvas>
+</div>
+<h1>北京大学学生请假管理系统</h1>
+<div class="sub-main-w3">
+    <form action="./login" method="post">
+        <h2>在此登陆
+            <i class="fas fa-level-down-alt"></i>
+        </h2>
+        <div class="form-style-agile">
+            <label>
+                <i class="fas fa-user"></i>
+                账号
+            </label>
+            <input placeholder="在此输入账号" name="admin" type="text" required="">
+        </div>
+        <div class="form-style-agile">
+            <label>
+                <i class="fas fa-unlock-alt"></i>
+                密码
+            </label>
+            <input placeholder="在此输入密码" name="pwd" type="password" required="">
+            <select name="role">
+                <option name="2" value="2" selected>管理员</option>
+                <option name="3" value="3">辅导员</option>
+                <option name="1" value="1">学生</option>
+            </select>
+        </div>
+<!--        <div class="form-style-agile">-->
+<!--            <label>-->
+<!--                <i class="fas fa-user"></i>-->
+<!--                身份类型-->
+<!--            </label>-->
+<!--            <input placeholder="您的身份" name="role" type="text" required="">-->
+<!--        </div>-->
+
+
+        <!-- //checkbox -->
+        <input type="submit" value="确定进入">
+    </form>
+</div>
+<!-- //content -->
+
+<!-- copyright -->
+<div class="footer">
+    <p>Copyright &copy; 102564.Company name All rights reserved</p>
+</div>
+<!-- //copyright -->
+
+<!-- Jquery -->
+<script src="js/jquery-3.3.1.min.js"></script>
+<!-- //Jquery -->
+
+<!-- effect js -->
+<script src="js/canva_moving_effect.js"></script>
+<!-- //effect js -->
+
+</body>
+
+</html>

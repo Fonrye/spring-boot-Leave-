@@ -1,0 +1,283 @@
+<!-- 新增模态框 -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">新增用户</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addForm" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学生编号</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="stuID" class="form-control" placeholder="学生编号">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">班级编号</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="classID" class="form-control" placeholder="班级编号">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学生姓名</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="stuName" class="form-control" placeholder="学生姓名">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">性别</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" name="sex"  placeholder="性别"></input>
+                        </div>
+                    </div>
+                    <!-- =============    后添加-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">联系地址</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="address" class="form-control" placeholder="联系地址">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学生电话</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="stuTel" class="form-control" placeholder="学生电话">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">联系人</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="contact" class="form-control" placeholder="联系人">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">联系人电话</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="contactTel" class="form-control" placeholder="联系人电话">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 取消
+                </button>
+                <button type="button" class="btn btn-primary" onclick="addRequest()">
+                    <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> 保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 查看模态框 -->
+<div class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">查看学生</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">用户编号</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static" id="showId"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学生姓名</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static" id="showStuName"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">性别</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static" id="showSex"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学生学号</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static" id="showStuID"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">课程编号</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static" id="showClassID"></p>
+                        </div>
+                    </div>
+                    <!--  ==============   后添加-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">联系地址</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static" id="showAddress"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学生电话</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static" id="showStuTel"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">联系人</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static" id="showContact"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">联系人电话</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static" id="showContactTel"></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑模态框 -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">编辑用户</h4>
+            </div>
+            <div class="modal-body">
+                <form id="editForm" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">ID</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="editId" name="id" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学生编号</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="editStuID" name="stuID" class="form-control" placeholder="学生编号">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">班级编号</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="editClassID" name="classID" class="form-control" placeholder="班级编号">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学生姓名</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="editStuName" name="stuName" class="form-control" placeholder="学生姓名">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">性别</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="editSex" name="sex"  placeholder="性别"></input>
+                        </div>
+                    </div>
+                    <!--    ==============                后添加-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">联系地址</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="editAddress" name="address" class="form-control" placeholder="联系地址">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学生电话</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="editStuTel" name="stuTel" class="form-control" placeholder="学生电话">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">联系人</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="editContact" name="contact" class="form-control" placeholder="联系人">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">联系人电话</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="editContactTel" name="contactTel" class="form-control" placeholder="联系人电话">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 取消
+                </button>
+                <button type="button" class="btn btn-primary" onclick="editRequest()">
+                    <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> 保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 删除模态框 -->
+<div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">删除用户</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="delId">
+                <p><strong>警告：</strong>确定删除该数据？</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 取消
+                </button>
+                <button type="button" class="btn btn-danger" onclick="delRequest()">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 批量删除模态框 -->
+<div class="modal fade" id="delsModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">批量删除用户</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="delsId">
+                <p><strong>警告：</strong>确定批量删除数据？</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 取消
+                </button>
+                <button type="button" class="btn btn-danger" onclick="delsRequest()">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

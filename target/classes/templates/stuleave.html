@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="/common/head"></div>
+<head>
+    <meta charset="UTF-8">
+    <title>学生申请请假</title>
+</head>
+<body>
+
+<!-- 导航栏 -->
+<div th:replace="/common/header"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">学生申请请假</div>
+                <div class="panel-body">
+                    进行申请请假后即可退出系统，请耐心等候相关人员进行审核批准。
+                </div>
+            </div>
+            <div id="toolbar" class="btn-group">
+                <button type="button" class="btn btn-sm btn-info" onclick="add()">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 申请请假
+                </button>
+
+            </div>
+            <table id="stuleaveTable">
+
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- 所有的模态框 -->
+<div th:replace="/common/modalStuleave"></div>
+
+<!-- 所有的js -->
+<div th:replace="/common/js"></div>
+
+</body>
+<script>
+    $(function () {
+        //初始化Table
+        var oTable = new TableInit();
+        oTable.Init();
+        //初始化消息提示位置
+        toastr.options.positionClass = 'toast-center-center';
+    });
+
+    var TableInit = function () {
+        var oTableInit = new Object();
+        oTableInit.Init = function () {
+            $('#stuleaveTable').bootstrapTable({
+                locale: 'zh-CN',
+                url: '/leave/list',                    //请求后台的URL（*）
+                method: 'get',                      //请求方式（*）
+                contentType: "application/x-www-form-urlencoded",
+                toolbar: '#toolbar',                //工具按钮用哪个容器
+                striped: true,                      //是否显示行间隔色
+                cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true,                   //是否显示分页（*）
+                sortable: false,                    //是否启用排序
+                sortOrder: "asc",                   //排序方式
+                sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                      //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+                //search: true,                     //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                //searchOnEnterKey: true,           //开启回车搜索
+                //strictSearch: true,               //开启精确搜索
+                showColumns: true,                  //是否显示所有的列
+                showRefresh: true,                  //是否显示刷新按钮
+                minimumCountColumns: 2,             //最少允许的列数
+                clickToSelect: true,                //是否启用点击选中行
+                height: 620,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                uniqueId: "id",                     //每一行的唯一标识，一般为主键列
+                showToggle: true,                   //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                    //是否显示详细视图
+                detailView: false,
+                //是否显示父子表
+                queryParams: function (params) {    //传递参数（*）
+
+                    return {
+                        limit: params.limit,
+                        offset: params.offset,
+                    };
+                },
+                responseHandler: function (data) {  //在加载服务器发送来的数据之前，处理数据的格式
+                    return {
+                        "total": data.total,
+                        "rows": data.rows,
+                    };
+
+                },
+
+                columns: [
+                    {
+                        field: 'id',
+                        title: '编号',
+                        align: 'center'
+                    },
+                    {
+                        field: 'leaveID',
+                        title: '请假单号'
+                    },
+                    {
+                        field: 'courseID',
+                        title: '课程编号'
+                    },
+                    {
+                        field: 'reason',
+                        title: '原因'
+                    },
+                    {
+                        field: 'daynum',
+                        title: '请假天数'
+                    },
+                    {
+                        field: 'stuNo',
+                        title: '学生编号'
+                    }, {
+                        field: 'applytime',
+                        title: '请假时间'
+                    }, {
+                        // field: 'status',
+                        field: 'status',
+                        title: '假条状态',
+                        formatter(value, row, index) {
+                            if (value === '0') {
+                                return value = '未审核'
+                            } else if (value === '1') {
+                                return value = '已同意'
+                            } else {
+                                return value = '不同意'
+                            }
+                        }
+                    },
+                    {
+                        field: 'audittime',
+                        title: '批准时间',
+
+                    },
+                ],
+
+            });
+
+        };
+        return oTableInit;
+    };
+
+    /** -------------------------------------------------- 新增 */
+    // 新增
+    function add() {
+        $('#addModal').modal();
+    }
+
+    // 新增请求
+    function addRequest() {
+        $.ajax({
+            type: "POST",
+            url: "/leave/insert",
+            data: formToJSON("#addForm"),
+            contentType: 'application/json',
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 1) {
+                    $('#addModal').modal('hide');
+                    $('#addForm')[0].reset();
+                    $('#addForm').bootstrapValidator('resetForm');
+                    $("#leaveTable").bootstrapTable("refresh", {silent: true});
+                    toastr.success(data.message);
+                } else {
+                    toastr.error(data.message);
+                }
+            },
+            error: function () {
+                toastr.error("网络连接异常，请检查网络是否稳定");
+            }
+        });
+    }
+
+
+</script>
+</html>

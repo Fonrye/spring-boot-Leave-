@@ -1,0 +1,76 @@
+<!-- 新增模态框 -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">新增请假单</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addForm" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">请假单号</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="leaveID" class="form-control" placeholder="请假单号">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">课程编号</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="courseID" class="form-control" placeholder="课程编号">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">原因</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="reason" class="form-control" placeholder="原因">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">天数</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" name="daynum"  placeholder="天数"></input>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学生编号</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="stuNo" class="form-control" placeholder="学生编号">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">申请时间</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="applytime" class="form-control" placeholder="申请时间">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">状态</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="status" class="form-control" placeholder="等待老师审核进行填写" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">批准时间</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="audittime" class="form-control" placeholder="等待老师审核进行填写" readonly>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 取消
+                </button>
+                <button type="button" class="btn btn-primary" onclick="addRequest()">
+                    <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> 提交
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

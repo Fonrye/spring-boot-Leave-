@@ -1,0 +1,230 @@
+<!-- 新增模态框 -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">新增课程</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addForm" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学年</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="year" class="form-control" placeholder="学年">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学时</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="hour" class="form-control" placeholder="学时">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">课程名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="courseName" class="form-control" placeholder="课程名称">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">课程编号</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" name="courseID" placeholder="课程编号"></input>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学期</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" name="term" placeholder="学期"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 取消
+                </button>
+                <button type="button" class="btn btn-primary" onclick="addRequest()">
+                    <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> 保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 查看模态框 -->
+<div class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">查看课程</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">课程编号</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static" id="showId"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学年</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static" id="showYear"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学期</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static" id="showTerm"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学时</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static" id="showHour"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">班级编号</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static" id="showClassID"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">课程编号</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static" id="showCourseID"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">课程名</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static" id="showCourseName"></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑模态框 -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">编辑课程</h4>
+            </div>
+            <div class="modal-body">
+                <form id="editForm" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">ID</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="editId" name="id" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学时</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="editHour" name="hour" class="form-control" placeholder="学时">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学年</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="editYear" name="year" class="form-control" placeholder="学年">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学期</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="editTerm" name="term" class="form-control" placeholder="学期">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">课程编号</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="editCourseID" name="courseID" placeholder="课程编号"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">班级编号</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="editClassID" name="classID" placeholder="班级编号"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">课程名称</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="editCourseName" name="courseName" placeholder="课程名称"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 取消
+                </button>
+                <button type="button" class="btn btn-primary" onclick="editRequest()">
+                    <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> 保存
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 删除模态框 -->
+<div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">删除课程</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="delId">
+                <p><strong>警告：</strong>确定删除该数据？</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 取消
+                </button>
+                <button type="button" class="btn btn-danger" onclick="delRequest()">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 批量删除模态框 -->
+<div class="modal fade" id="delsModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">批量删除课程</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="delsId">
+                <p><strong>警告：</strong>确定批量删除数据？</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 取消
+                </button>
+                <button type="button" class="btn btn-danger" onclick="delsRequest()">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

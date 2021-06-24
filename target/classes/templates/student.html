@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="/common/head"></div>
+<title>请假管理系统</title>
+<body>
+
+<!-- 导航栏 -->
+<div th:replace="/common/header"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">管理学生信息界面</div>
+                <br/>
+                <a class="glyphicon glyphicon-user" href="/classes">&nbsp班级页面</a>
+                &nbsp &nbsp &nbsp
+                <a class="glyphicon glyphicon-user" href="/course">&nbsp课程页面</a>
+                &nbsp &nbsp &nbsp
+                <a class="glyphicon glyphicon-user" href="/leave">&nbsp请假页面</a>
+                &nbsp &nbsp &nbsp
+<!--                <a class="glyphicon glyphicon-user" href="/leave/export">&nbsp页面导出</a>-->
+            </div>
+            <div class="panel-body">
+                <form id="searchForm" class="form-inline">
+                    <div class="form-group">
+                        <label>学生姓名</label>
+                        <input type="text" class="form-control" name="searchStuName">
+                    </div>
+                    <div class="form-group">
+                        <label>学生id</label>
+                        <input type="text" class="form-control" name="searchStuID">
+                    </div>
+                    <div class="form-group">
+                        <label>班级id</label>
+                        <input type="text" class="form-control" name="searchClassID">
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="search()">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                    <button type="reset" class="btn btn-default">
+                        <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div id="toolbar" class="btn-group">
+            <button type="button" class="btn btn-sm btn-info" onclick="add()">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新 增
+            </button>
+            <button type="button" class="btn btn-sm btn-danger" onclick="dels()">
+                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> 批量删除
+            </button>
+            <button type="button" class="btn btn-sm btn-primary" onclick="window.location.href='/'">
+                <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> 刷新数据
+            </button>
+<!--            <button type="button" class="btn btn-sm btn-success" onclick="window.location.href='/leave/export'">-->
+<!--                <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> 导出假条-->
+<!--            </button>-->
+        </div>
+        <table id="studentTable"></table>
+    </div>
+</div>
+</div>
+
+<!-- 所有的模态框 -->
+<div th:replace="/common/modalStu"></div>
+
+<!-- 所有的js -->
+<div th:replace="/common/js"></div>
+
+</body>
+<script>
+    $(function () {
+        //初始化Table
+        var oTable = new TableInit();
+        oTable.Init();
+        //初始化消息提示位置
+        toastr.options.positionClass = 'toast-center-center';
+    });
+
+    var TableInit = function () {
+        var oTableInit = new Object();
+        oTableInit.Init = function () {
+            $('#studentTable').bootstrapTable({
+                locale: 'zh-CN',
+                url: '/student/list',                    //请求后台的URL（*）
+                method: 'get',                      //请求方式（*）
+                contentType: "application/x-www-form-urlencoded",
+                toolbar: '#toolbar',                //工具按钮用哪个容器
+                striped: true,                      //是否显示行间隔色
+                cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+                pagination: true,                   //是否显示分页（*）
+                sortable: false,                    //是否启用排序
+                sortOrder: "asc",                   //排序方式
+                sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+                pageNumber: 1,                      //初始化加载第一页，默认第一页
+                pageSize: 10,                       //每页的记录行数（*）
+                pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+                //search: true,                     //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+                //searchOnEnterKey: true,           //开启回车搜索
+                //strictSearch: true,               //开启精确搜索
+                showColumns: true,                  //是否显示所有的列
+                showRefresh: true,                  //是否显示刷新按钮
+                minimumCountColumns: 2,             //最少允许的列数
+                clickToSelect: true,                //是否启用点击选中行
+                height: 620,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+                uniqueId: "id",                     //每一行的唯一标识，一般为主键列
+                showToggle: true,                   //是否显示详细视图和列表视图的切换按钮
+                cardView: false,                    //是否显示详细视图
+                detailView: false,                  //是否显示父子表
+                queryParams: function (params) {    //传递参数（*）
+                    return {
+                        limit: params.limit,
+                        offset: params.offset,
+                        stuName: $("input[name='searchStuName']").val(),
+                        stuID: $("input[name='searchStuID']").val(),
+                        classID: $("input[name='searchClassID']").val(),
+                        // 后添加
+                        // address: $("input[name='searchAddress']").val(),
+                        // stuTel: $("input[name='searchStuTel']").val(),
+                        // contact: $("input[name='searchContact']").val(),
+                        // contactTel: $("input[name='searchContactTel']").val()
+                    };
+                },
+                responseHandler: function (data) {  //在加载服务器发送来的数据之前，处理数据的格式
+                    return {
+                        "total": data.total,
+                        "rows": data.rows
+                    };
+                },
+                columns: [
+                    {
+                        field: 'ids',
+                        checkbox: true
+                    },
+                    {
+                        field: 'id',
+                        title: '编号',
+                        align: 'center'
+                    },
+                    {
+                        field: 'stuName',
+                        title: '学生姓名'
+                    },
+                    {
+                        field: 'sex',
+                        title: '性别'
+                    },
+                    {
+                        field: 'stuID',
+                        title: '学生编号'
+                    },
+                    {
+                        field: 'classID',
+                        title: '班级编号'
+                    },
+                    //后添加
+                    {
+                        field: 'address',
+                        title: '联系地址'
+                    }, {
+                        field: 'stuTel',
+                        title: '学生电话'
+                    }, {
+                        field: 'contact',
+                        title: '联系人'
+                    }, {
+                        field: 'contactTel',
+                        title: '联系人电话'
+                    },
+                    {
+                        field: 'operate',
+                        title: '操作',
+                        formatter: function (value, row, index) {
+                            var c = '<button class="btn btn-sm btn-success" onclick="show(\'' + row.id + '\')"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> 查 看</button> ';
+                            var e = '<button class="btn btn-sm btn-warning" onclick="edit(\'' + row.id + '\')"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 编 辑</button> ';
+                            var d = '<button class="btn btn-sm btn-danger" onclick="del(\'' + row.id + '\')"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span> 删 除</button> ';
+                            return c + e + d;
+                        }
+                    },
+                ]
+            });
+        };
+        return oTableInit;
+    };
+
+    /** -------------------------------------------------- 新增 */
+    // 新增
+    function add() {
+        $('#addModal').modal();
+    }
+
+    // 新增请求
+    function addRequest() {
+        $.ajax({
+            type: "POST",
+            url: "/student/insert",
+            data: formToJSON("#addForm"),
+            contentType: 'application/json',
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 1) {
+                    $('#addModal').modal('hide');
+                    $('#addForm')[0].reset();
+                    $('#addForm').bootstrapValidator('resetForm');
+                    $("#studentTable").bootstrapTable("refresh", {silent: true});
+                    toastr.success(data.message);
+                } else {
+                    toastr.error(data.message);
+                }
+            },
+            error: function () {
+                toastr.error("网络连接异常，请检查网络是否稳定");
+            }
+        });
+    }
+
+    /** -------------------------------------------------- 查看 */
+    // 查看
+    function show(id) {
+        $.ajax({
+            type: "GET",
+            url: "/student/get/" + id,
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 1) {
+                    var student = data.data;
+                    $('#showId').text(student.id);
+                    $('#showStuName').text(student.stuName);
+                    $('#showSex').text(student.sex);
+                    $('#showStuID').text(student.stuID);
+                    $('#showClassID').text(student.classID);
+                    $('#showAddress').text(student.address);
+                    $('#showStuTel').text(student.stuTel);
+                    $('#showContact').text(student.contact);
+                    $('#showContactTel').text(student.contactTel);
+
+                    $('#showModal').modal();
+                } else {
+                    toastr.warning(data.message);
+                }
+            },
+            error: function () {
+                toastr.error("网络连接异常，请检查网络是否稳定");
+            }
+        });
+    }
+
+    /** -------------------------------------------------- 编辑 */
+    // 编辑
+    function edit(id) {
+        $.ajax({
+            type: "GET",
+            url: "/student/get/" + id,
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 1) {
+                    var student = data.data;
+                    $('#editId').val(student.id);
+                    $('#editStuName').val(student.stuName);
+                    $('#editSex').val(student.sex);
+                    $('#editStuID').val(student.stuID);
+                    $('#editClassID').val(student.classID);
+                    $('#editAddress').val(student.address);
+                    $('#editStuTel').val(student.stuTel);
+                    $('#editContact').val(student.contact);
+                    $('#editContactTel').val(student.contactTel);
+
+                    $('#editModal').modal();
+                } else {
+                    toastr.warning(data.message);
+                }
+            },
+            error: function () {
+                toastr.error("网络连接异常，请检查网络是否稳定");
+            }
+        });
+    }
+
+    // 编辑请求
+    function editRequest() {
+
+        $.ajax({
+            type: "POST",
+            url: "/student/update",
+            data: formToJSON("#editForm"),
+            contentType: 'application/json',
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 1) {
+                    $('#editModal').modal('hide');
+                    $('#editForm')[0].reset();
+                    $('#editForm').bootstrapValidator('resetForm');
+                    $("#studentTable").bootstrapTable("refresh", {silent: true});
+                    toastr.success(data.message);
+                } else {
+                    toastr.error(data.message);
+                }
+            },
+            error: function () {
+                toastr.error("网络连接异常，请检查网络是否稳定");
+            }
+        });
+    }
+
+    /** -------------------------------------------------- 删除 */
+    // 删除
+    function del(id) {
+        $("#delId").val(id);
+        $("#delModal").modal();
+    }
+
+    // 删除请求
+    function delRequest() {
+        $.ajax({
+            type: "POST",
+            url: "/student/delete",
+            data: {
+                id: $("#delId").val()
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 1) {
+                    $("#delModal").modal("hide");
+                    toastr.success(data.message);
+                    $("#studentTable").bootstrapTable("refresh", {silent: true});
+                } else {
+                    toastr.warning(data.message);
+                }
+            },
+            error: function () {
+                toastr.error("网络连接异常，请检查网络是否稳定");
+            }
+        });
+    }
+
+    /** -------------------------------------------------- 批量删除 */
+    // 批量删除
+    function dels() {
+        // 获得选中的行
+        var obj = $.map($('#studentTable').bootstrapTable('getSelections'), function (row) {
+            return row.id;
+        });
+        if (obj.length < 1) {
+            toastr.info("请选择要删除的选项");
+            return;
+        }
+        $("#delsId").val(obj);
+        $("#delsModal").modal();
+    }
+
+    // 批量删除请求
+    function delsRequest() {
+        $.ajax({
+            type: "POST",
+            url: "/student/deleteByIds",
+            data: {
+                ids: $("#delsId").val()
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 1) {
+                    $("#delsModal").modal("hide");
+                    toastr.success(data.message);
+                    $("#studentTable").bootstrapTable("refresh", {silent: true});
+                } else {
+                    toastr.warning(data.message);
+                }
+            },
+            error: function () {
+                toastr.error("网络连接异常，请检查网络是否稳定");
+            }
+        });
+    }
+
+    /** -------------------------------------------------- 条件搜索 */
+    // 搜索
+    function search() {
+        var searchStuName = $("input[name=' searchStuName']").val();
+        var searchStuID = $("input[name='searchStuID']").val();
+        var searchClassID = $("input[name='searchClassID']").val();
+        $("#studentTable").bootstrapTable("refresh", {silent: true});
+        // 高亮显示关键字
+        $("#studentTable").on('post-body.bs.table', function () {
+            var tableId = document.getElementById("studentTable");
+            for (var i = 1; i < tableId.rows.length; i++) {
+                if (searchStuName != null && searchStuName.length != 0) {
+                    var box = tableId.rows[i].cells[2].innerHTML;
+                    var displayColor = '<strong style="color:red">' + searchStuName + '</strong>';
+                    var content = box.replace(new RegExp(searchStuName, 'ig'), displayColor);
+                    tableId.rows[i].cells[2].innerHTML = content;
+                }
+                if (searchStuID != null && searchStuID.length != 0) {
+                    var box = tableId.rows[i].cells[4].innerHTML;
+                    var displayColor = '<strong style="color:red">' + searchStuID + '</strong>';
+                    var content = box.replace(new RegExp(searchStuID + '', 'ig'), displayColor);
+                    tableId.rows[i].cells[4].innerHTML = content;
+                }
+                if (searchClassID != null && searchClassID.length != 0) {
+                    var box = tableId.rows[i].cells[5].innerHTML;
+                    var displayColor = '<strong style="color:red">' + searchClassID + '</strong>';
+                    var content = box.replace(new RegExp(searchClassID, 'ig'), displayColor);
+                    tableId.rows[i].cells[5].innerHTML = content;
+                }
+            }
+        });
+    }
+</script>
+</html>
